@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bobo.mapper.UserMapper">
+
+    <resultMap id="result" type="com.bobo.entity.User">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="pwd" column="pwd" />
+        <result property="card_id" column="card_id"/>
+    </resultMap>
+    <select id="findById" parameterType="Integer" resultMap="result">
+        select * from `user` where id = #{id}
+    </select>
+
+    <select id="guanlian" parameterType="Integer" resultMap="ucmap">
+        select * from `user` u, card c where u.id = #{id} and c.cid = u.card_id
+    </select>
+    <resultMap id="ucmap" type="com.bobo.entity.User">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="pwd" column="pwd" />
+        <association property="card"  javaType="com.bobo.entity.Card">
+            <id property="cid" column="cid" />
+            <result property="address" column="address" />
+        </association>
+    </resultMap>
+</mapper>
